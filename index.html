@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agar.io Клонинг</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            background: #f2f2f2; 
+        }
+        canvas { 
+            display: block; 
+            background: #fff; 
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <script>
+        // Взимане на canvas елемента и контекста
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        // Разпъване на canvas-а на цял екран
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Позиция на играча (първоначално в центъра)
+        let playerX = canvas.width / 2;
+        let playerY = canvas.height / 2;
+        let playerRadius = 40;
+
+        // Обект за следене на мишката
+        const mouse = { x: playerX, y: playerY };
+
+        // Следене на движението на мишката
+        window.addEventListener('mousemove', (event) => {
+            mouse.x = event.clientX;
+            mouse.y = event.clientY;
+        });
+
+        // Функция за обновяване и рисуване (Game Loop)
+        function gameLoop() {
+            // Изчистване на екрана за новия кадър
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Плавно движение на играча към мишката
+            playerX += (mouse.x - playerX) * 0.1;
+            playerY += (mouse.y - playerY) * 0.1;
+
+            // Рисуване на играча (синьо топче)
+            ctx.beginPath();
+            ctx.arc(playerX, playerY, playerRadius, 0, Math.PI * 2);
+            ctx.fillStyle = '#00a2ff';
+            ctx.fill();
+            ctx.closePath();
+
+            // Повторение на функцията при всеки нов кадър
+            requestAnimationFrame(gameLoop);
+        }
+
+        // Стартиране на играта
+        gameLoop();
+    </script>
+</body>
+
+
